@@ -1,20 +1,35 @@
-Dojo: The Good Parts
-====================
-This repo is a companion to the ESRI Developer Summit [Presentation](http://webapps-cdn.esri.com/tools/MobileWebAgenda/cons/index.html?conferenceID=62#@oid=4717) held March 10-13th 2014 in Palm Springs.
+Dojo: 语言精粹
 
-![Dojo: The Good Parts](https://raw.github.com/DavidSpriggs/Dojo--The-Good-Parts/master/Dojo-the-good-parts.jpg "Dojo: The Good Parts")
+Dojo工具箱包含很多部分：
+Dojo：核心库；
+Dijit：控件库，用于构建UI小部件；
+Dojox：扩展库；
+Util：工具包，包含打包工具、测试工具以及文档工具等。
 
-Dojo, dijit, dojox, util, there are a lot of parts in the Dojo Toolkit. The aim of this repo is to highlight the good parts and patterns that make Dojo a powerhouse!
 
-[`dojo/_base/array`](http://dojotoolkit.org/reference-guide/1.9/dojo/_base/array.html)
+本篇简单介绍下Dojo的语言结构以及其精华部分的语法。
+[Dojo语法详细](http://dojotoolkit.org/reference-guide/1.10/dojo/)
+
+[`dojo/_base/array`](http://dojotoolkit.org/reference-guide/1.10/dojo/_base/array.html)
 -----------------
-Array provides enhancements to native Array functions which may not be available. In Dojo 2.0, this module will likely be replaced with a shim to support functions on legacy browsers that don’t have these native capabilities. Array has a notable difference from the JavaScript 1.6’s Array methods in that it runs over sparse arrays, passing the “holes” in the sparse array to the callback function. JavaScript 1.6’s Array methods skips the holes in the sparse array.
+在原生的JavaScript中操作数组的方法比较少，并且不同浏览器其实现标准也有差异。Dojo对原生的数组进行了封装和扩展，增加了一些比较方便的操作方法。
 ##### `array.every()`
-every() semantically answers the question “does a test hold true for every item in the array?” Like forEach(), every() iterates over the items in an array. However, it short circuits and returns false as soon as it encounters an item for which the provided callback returns a falsey value. If the callback returns true for all items, every() returns true.
+every() ，从其字面意义上可以很容易理解，它的作用就是判断数组中得成员是否都满足所给条件，与forEach方法一样，every方法也会对数组中的成员进行遍历。但是不同的是，只要有一个成员不满足所给条件，该方法就会停止遍历，并返回false的结果。当然如果所有成员都满足所给条件，该方法就会会遍历所有成员，并返回true的结果。
+```javascript
+array.every([1,2,3,4],function(item){
+  return item > 1; // false
+  // return item > 0; // true
+});
+```
 ##### `array.filter()`
-filter() does at it implies, filter an array or array-like structure. filter() will return an array for values from unfilteredArray for which the callback returns a truthy value. The original array is not modified.
+filter()，对数组进行筛选，返回满足条件的成员的集合。
+```javascript
+array.filter([1,2,3,4],function(item){
+  return item > 1; // [2,3,4]
+});
+```
 ##### `array.forEach()`
-forEach() iterates over Arrays and NodeLists and provides ways to filter the results. Can also scope callback.
+forEach()，遍历数组。
 ```javascript
 require(["dojo/_base/array"], function(array){
   var foo = {
@@ -30,11 +45,11 @@ require(["dojo/_base/array"], function(array){
 });
 ```
 ##### `array.indexOf()`
-indexof() determines the index of an element in an Array. It locates the first index of the provided value in the passed array. If the value is not found, -1 is returned.
+indexOf()，返回所给成员的索引，如果数组中有多个满足条件的成员则，返回第一个的索引，如果没有则返回-1。
 ##### `array.lastIndexOf()`
-lastIndexOf() determines the last index of an element in an array. It locates the last index of the provided value in the passed array. If the value is not found, -1 is returned.
+lastIndexOf()，与indexOf类似，但是是返回满足条件的最后一个的索引。
 ##### `array.map()`
-map() iterates all the elements in an array, passing them to the callback function and then returning a new array with any of the modified results.
+map()，遍历数组，将每个成员传递给回调函数，返回更改的新数组。
 ```javascript
 // a query to a map service returns a featureSet, lets make an array of just one attribute:
 // featureSet looks something like this (condensed for example): {features:[{attributes:{ZIP:63385},geometry:{rings:[...]},{attributes:{ZIP:63301},geometry:{rings:[...]},{attributes:{ZIP:63867},geometry:{rings:[...]}]};
@@ -44,15 +59,15 @@ zips = array.map(featureSet.features, function(zipPolys) {
 // zips = [63385, 63301, 63867]
 ```
 ##### `array.some()`
-some() semantically answers the question “does a test hold true for at least one item in the array?” Like forEach(), some() iterates over the items in an array. However, it short circuits and returns true as soon as it encounters an item for which the provided callback returns a truthy value. If the callback doesn’t return true for any item, some() returns false.
-##### Note:
-`every, map, forEach, some, filter` each accept a third paramater of a 'this' object! This allows you to scope the annonmus callback function! See forEach() code example above.
+some()，判断数组中是否有成员满足所给条件。
+##### 注意：
+`every, map, forEach, some, filter`这些方法都可以接收第三个参数以绑定方法的作用域。
 
-[`dojo/_base/lang`](http://dojotoolkit.org/reference-guide/1.9/dojo/_base/lang.html)
------------------
-Lang is a commonly used class and contains JS language enhancements, functions for supporting Polymorphism and other language constructs that are fundemental to the rest of the toolkit.
+[`dojo/_base/lang`](http://dojotoolkit.org/reference-guide/1.10/dojo/_base/lang.html)
+--------------
+Lang是一个经常被使用的类，扩充了JS语言。
 ##### `lang.clone()`
-Clones objects and/or nodes, returning a new anything, versus a reference. Pass something to clone(), and a new version of that something will be made:
+复制对象或节点，返回新的对象或节点。
 ```javascript
 require(["dojo/_base/lang"], function(lang){
   // clone an object
@@ -63,7 +78,7 @@ require(["dojo/_base/lang"], function(lang){
 });
 ```
 ##### `lang.mixin()`
-Mixin is a simple utility function for mixing objects together. Mixin combines two objects from right to left, overwriting the left-most object, and returning the newly mixed object for use. mixin() only works on objects
+Mixin合并对象，将一个对象合并到另一个对象中，mixin只能在对象间使用
 ```javascript
 require(["dojo/_base/lang"], function(lang){
   var a = { b: "c", d: "e" };
@@ -72,9 +87,7 @@ require(["dojo/_base/lang"], function(lang){
 });
 ```
 ##### `lang.hitch()`
-Hitch returns a function that will execute a given function in a given context. This function allows you to control how a function executes, particularly in asynchronous operations.
-
-Method name example. Will look for 'method' on 'this' and pass arguments:
+Hitch返回一个绑定特定作用对象的方法。
 ```javascript
 require(["dojo/_base/lang"], function(lang){
   var myObj = {
@@ -91,7 +104,7 @@ require(["dojo/_base/lang"], function(lang){
 });
 ```
 
-Anonomus function example:
+匿名函数的写法：
 ```javascript
 require(["dojo/_base/lang"], function(lang){
   var myObj = {
@@ -111,11 +124,10 @@ require(["dojo/_base/lang"], function(lang){
 });
 ```
 
-[`dojo/Deferred`](http://dojotoolkit.org/reference-guide/1.9/dojo/Deferred.html)
+[`dojo/Deferred`](http://dojotoolkit.org/reference-guide/1.10/dojo/Deferred.html)
 --------------
-Manages the communication between asynchronous threads (callbacks). The deferred is the private interface that should not be returned to calling code. That's what the promise is for. See `dojo/promise/Promise`.
-
-This example provides a basic usage of Deferred, where we are creating an async process via the setTimeout function. This could also be an async query to the server (ajax).
+管理异步回调函数间的通讯。deferred是一个私有接口不能被返回去调用其他代码。该部分职责由promise担当。详情请查看`dojo/promise/Promise`。
+异步延迟是Defferd的基本用武之地。
 ```javascript
 require(["dojo/Deferred", "dojo/dom", "dojo/on", "dojo/domReady!"],
 function(Deferred, dom, on){
@@ -137,7 +149,7 @@ function(Deferred, dom, on){
       dom.byId("output").innerHTML = "I'm finished, and the result was: " + results;
     });
   });
-  
+
 });
 ```
 ```html
@@ -145,12 +157,12 @@ function(Deferred, dom, on){
 <div id="output">Not yet started.</div>
 <button type="button" id="startButton">Start</button>
 ```
-##### Notes:
-- Do not return the deffered, only the promise: `return deferred.promise;`
+##### 注意:
+不要返回deferred本身，只返回其promise：`return deferred.promise;`
 
-[`dojo/promise/all`](http://dojotoolkit.org/reference-guide/1.9/dojo/promise/all.html)
+[`dojo/promise/all`](http://dojotoolkit.org/reference-guide/1.10/dojo/promise/all.html)
 ------------------
-A function that takes multiple promises and returns a new promise that is fulfilled when all promises have been fulfilled.
+集结多个promise并返回新的promise，当所有promise执行完成后再执行新promise。
 ```javascript
 // inside of a calss member function: ('dojo/promise/all', 'esri/tasks/query', 'esri/tasks/QueryTask' are required)
 //query to get geometries of all zips from map service
@@ -197,9 +209,12 @@ require(["dojo/promise/all"], function(all){
 
 });
 ```
-[`dojo/store/Memory`](http://dojotoolkit.org/reference-guide/1.9/dojo/store/Memory.html)
+
+[`dojo/store/Memory`](http://dojotoolkit.org/reference-guide/1.10/dojo/store/Memory.html)
 -------------------
-Memory is an object store wrapper for JavaScript/JSON available directly with an array. This store implements the new Dojo Object Store API.
+Dojo store基于HTML5 IndexedDB object store API，旨在简化store的构建与查询以及不同store间的交互。
+memory是个非常有效率的常驻内存的store，只要提供一个数组就可以创建。
+memory本身也拥有方便的查询与排序功能，可以方便的查找数据，对数据进行排序处理。
 ```javascript
 require(["dojo/store/Memory"], function(Memory){
     var someData = [
@@ -225,37 +240,59 @@ require(["dojo/store/Memory"], function(Memory){
 ```
 [`dgrid`](http://dojofoundation.org/packages/dgrid/)
 -------
-Extensable ui data grids. Too much to cover here, see this link to get [started](http://dojofoundation.org/packages/dgrid/tutorials/hello_dgrid/).
+易扩展的grid控件。
 ```javascript
 this.dgrid = new(declare([Grid]))({
-	//selectionMode: "single",
-	bufferRows: Infinity,
-	columns: [{
-		label: "Type",
-		field: "type",
-		sortable: true
-	}, {
-		label: "Truck",
-		field: "label",
-		sortable: true
-	}, {
-		label: "Last Report",
-		field: "date",
-		sortable: true,
-		formatter: function(value) {
-			return new Date(value).toLocaleString();
-		}
-	}]
+  //selectionMode: "single",
+  bufferRows: Infinity,
+  columns: [{
+    label: "Type",
+    field: "type",
+    sortable: true
+  }, {
+    label: "Truck",
+    field: "label",
+    sortable: true
+  }, {
+    label: "Last Report",
+    field: "date",
+    sortable: true,
+    formatter: function(value) {
+      return new Date(value).toLocaleString();
+    }
+  }]
 }, 'truckGrid');
 this.dgrid.startup();
 
 var trucks = array.map(this.lastKnown.graphics, function(g) {
-	return g.attributes;
+  return g.attributes;
 });
 this.deviceStore = new Memory({
-	data: trucks
+  data: trucks
 });
 this.dgrid.set("store", this.deviceStore);
+```
+
+[`gridx`](https://github.com/oria/gridx/)
+-------
+[主页](http://oria.github.io/gridx/)
+使用方法，参考[如何使用 Gridx](http://www.ibm.com/developerworks/cn/web/1302_zhuxw_gridx/)
+```javascript
+require([
+  "gridx/Grid",
+  "gridx/core/model/cache/Sync",
+  //......
+  "dojo/domReady!"
+], function(Gridx, Cache, ......){
+  //......
+  var grid = new Gridx({
+    cacheClass: Cache
+      store: store,
+      //......
+  });
+  grid.placeAt('gridContainerNode');
+  grid.startup();
+});
 ```
 
 [`dbind`](https://github.com/kriszyp/dbind)
@@ -276,9 +313,9 @@ require(['dijit/form/TextBox', 'dbind/bind'], function(TextBox){
 });
 ```
 
-[`dojo/on`](http://dojotoolkit.org/reference-guide/1.9/dojo/on.html)
+[`dojo/on`](http://dojotoolkit.org/reference-guide/1.10/dojo/on.html)
 ---
-A general-purpose event handler module for DOM nodes and other event emitting objects, providing normalized event listening and event dispatching functionality. This module is designed to be lightweight and fast, based on modern browsers’ event model.
+基于现代浏览器的事件模型的，DOM节点事件绑定与监听的方法
 ```javascript
 require(["dojo/on"], function(on){
   on(target, "event", function(e){
@@ -292,145 +329,119 @@ require(["dojo/on"], function(on){
 });
 ```
 
-`dojo/dom-class, dojo/dom-style`
+`dojo/query, dojo/dom, dojo/dom-class, dojo/dom-style, dojo/dom-construct, dojo/dom-attr, dojo/dom-geometry`
 ---
-DOM manipulation, abstracted.
+Dojo DOM的操作函数集
 
-##### [`dojo/dom-class`](http://dojotoolkit.org/reference-guide/1.9/dojo/dom-class.html)
-Manipulate css class names on nodes.
+query： DOM节点查询。
 
-Methods: contains(), add(), remove(), replace(), toggle().
+dom：DOM节点的查询。
+方法包括：byId()，isDescendant()，setSelectable()。
+
+dom-class：操作DOM节点的class。
+方法包括：contains()，add()， remove()， replace()， toggle()。
+
+dom-style：操作DOM节点的css属性。
+方法包括：set()，get()，getComputedStyle()。
+
+dom-construct：操作DOM节点。
+方法包括：toDom()，create()，empty()，place()，replace()，destroy()。
+
+dom-attr：操作DOM节点的属性。
+方法包括：set()， get()
+
+dom-geometry：操作DOM节点的位置属性。
+方法包括：position()，getMarginBox()，setMarginBox()，getContentBox()，setContentSize()等。
 ```javascript
-require(["dojo/dom-class", "dojo/dom", "dojo/on"],
-function(domClass, dom, on){
-  on(dom.byId("button2"), "click", function(){
-    domClass.toggle("example2", "style2");
-  });
+require([
+  "dojo/dom",
+  "dojo/query",
+  "dojo/dom-attr",
+  "dojo/dom-class",
+  "dojo/dom-style",
+  "dojo/dom-geometry",
+  "dojo/dom-construct"
+],function(dom, query, domAttr, domClass, domStyle, domGeom, domConstruct){
+  var node = dom.by("node"); // 查找id为node的节点
+  query(".node li").forEach(function(li){
+    var span = domConstruct.create("span",{
+      "class": "red",
+      innerHTML: "red"
+    },li); // 为每个li标签添加span标签
+    domClass.contains(span,"red"); // 判断span是否有名字为red的class
+    domClass.toggle(span,"active") // 添加或删除active class
+    domStyle.set(span,{
+      width: "100px",
+      height: "60px",
+      top: 0,
+      left: 0
+    }); // 设置span的宽和高
+    domAttr(span,"class"); // 返回red、active，获取span的class属性。
+    domGeom.getMarginBox(span); // {l:0,t:0,w:100,h:60}
+  },this) // 查询class为node的所有li标签
 });
 ```
-##### [`dojo/dom-style`](http://dojotoolkit.org/reference-guide/1.9/dojo/dom-style.html)
-Manipulate css styles on nodes.
 
-Methods: getComputedStyle(), get(), set().
-```javascript
-require(["dojo/dom-style"], function(domStyle){
-  domStyle.set("someNode", "width", "100px");
-});
-```
-Multiple styles can be done by using a hash as the name argument:
-```javascript
-require(["dojo/dom-style"], function(domStyle){
-  domStyle.set("someNode", {
-    width: "100px",
-    backgroundColor: "blue"
-  });
-});
-```
-To remove an inline style, set the value to an empty string(""):
-```javascript
-require(["dojo/dom-style"], function(domStyle){
-  domStyle.set("someNode", "display", "");
-});
-```
-
-[`dojo/aspect`](http://dojotoolkit.org/reference-guide/1.9/dojo/aspect.html)
+[`dojo/aspect`](http://dojotoolkit.org/reference-guide/1.10/dojo/aspect.html)
 ---
-The dojo/aspect module provides aspect oriented programming facilities to attach additional functionality to existing methods.
-
-##### `after()`
-
-The module includes an after function that provides after advice to a method. The provided advising function will be called after the main method is called. The after function’s signature is:
-```javascript
-after(target, methodName, advisingFunction, receiveArguments);
-```
-
-##### `before()`
-The module also includes a before function that provides before advice to a method. The provided advising function will be called before the main method is called. The before function’s signature is:
-```javascript
-before(target, methodName, advisingFunction);
-```
-
-##### `around()`
-The module finally includes an around function that provides around advice to a method. The provided advising function will be called in place of the main method, and the advising function will be passed a chaining function that can be used to continue to call execution to the next advice or original method. The around function’s signature is:
-```javascript
-around(target, methodName, advisingFactory);
-```
-
-##### Example of after(): (in a class module)
-```javascript
-postCreate: function() {
-    this.printTask = new esri.tasks.PrintTask(this.printTaskURL);
-    aspect.after(this.printTask, '_createOperationalLayers', this.operationalLayersInspector, false);
-},
-operationalLayersInspector: function(opLayers) {
-    array.forEach(opLayers, function(layer) {
-        if (layer.id == "Measurement_graphicslayer") {
-            array.forEach(layer.featureCollection.layers, function(fcLayer) {
-                array.forEach(fcLayer.featureSet.features, function(feature) {
-                    delete feature.attributes;
-                    feature.symbol.font.family = "Courier";
-                    feature.symbol.font.variant = esri.symbol.Font.VARIANT_NORMAL;
-                    feature.symbol.font.size = "32pt";
-                });
-            });
-        }
-    });
-    return opLayers;
-},
-```
-
-[`dojo/topic`](http://dojotoolkit.org/reference-guide/1.9/dojo/topic.html)
+Dojo的面向方面编程（AOP）[面向方面编程（AOP）功能与原理](http://www.infoq.com/cn/articles/zwb-dojo-aop)
 ---
-dojo/topic provides a centralized hub (event bus) for publishing and subscribing to global messages by topic. Because topics are not bound to a particular object, they are useful for communication between multiple instances or various different types of objects.
-
-Topics can be subscribed to by using `topic.subscribe()`, and messages can publish by using `topic.publish()`.
-```javascript
-require(["dojo/topic"], function(topic){
-    topic.subscribe("some/topic", function(){
-        console.log("received:", arguments);
-    });
-    // ...
-    topic.publish("some/topic", "one", "two");
-});
-```
+用于声明dojo类，支持单继承，多模块嵌入。
 
 [`dojo/_base/declare`](http://dojotoolkit.org/reference-guide/1.9/dojo/_base/declare.html)
----
-Declare contains functions to define Dojo classes, which support standard Object Oriented concepts within Dojo. JavaScript uses prototype-based inheritance, not class-based inheritance (which is used by most programming languages). Dojo provides the ability to simulate class-based inheritance using declare.
-```javascript
-// in "my/Person.js"
-define(["dojo/_base/declare", "dojo/_base/lang"], function(declare, lang){
-  return declare(null, {
-    name: "Anonymous",
-    age: null,
-    residence: "Universe A",
 
-    constructor: function(kwArgs){
-      lang.mixin(this, kwArgs);
+```javascript
+require([
+  "dojo/on",
+  "dojo/aspect",
+  "dojo/_base/lang",
+  "dojo/_base/declare"
+],function(on, aspect, lang, declare){
+  var A = declare(null,{
+    hello: "您好：",
+    name: null,
+    constructor: function(args){
+      lang.mixin(this, args);
+      this.greeting = this.hello + this.name;
     },
 
-    moveTo: function(residence){
-      this.residence = residence;
+    say: function(){
+      console.log(this.greeting);
+    },
+
+    sayAgain: function(){
+      aspect.after(this,"say",lang.hitch(this,function(){
+        console.log("再来一次："+ this.greeting);
+      }));
     }
   });
+
+  var B = declare(null,{
+    something: "打招呼",
+    doSomething: function(){
+      console.log(this.something);
+    }
+  });
+
+  var C = declare([A,B],{
+
+  });
+
+  a = new A({name:"小小"});
+  a.sayAgain();
+  a.say();
+  // 您好：小小
+  // 再来一次：您好：小小
+  //
+  var c = new C({name:"笑笑"});
+  c.doSomething(); // 打招呼
+  c.say(); // 您好：笑笑
 });
 ```
-```javascript
-// using the class elsewhere...
-require(["my/Person"], function(Person){
-  var anon  = new Person();
-  var alice = new Person({ name: "Alice", age: 42, residence: "Universe 1" });
 
-  console.log(anon.name, alice.name); // "Anonymous", "Alice"
-  console.log(anon.residence, alice.residence); // "Universe A", "Universe 1"
-  alice.moveTo("Universe 420");
-  console.log(alice.residence); // "Universe 420"
-});
-```
-
-[`dojo/Stateful`](http://dojotoolkit.org/reference-guide/1.9/dojo/Stateful.html)
+[`dojo/Stateful`](http://dojotoolkit.org/reference-guide/1.10/dojo/Stateful.html)
 ---
-Base class for objects that provide named properties with optional getter/setter control and the ability to watch for property changes.
+为对象提供getter/setter方法。以及提供监听属性更改的方法。
 ```javascript
 require(["dojo/Stateful", "dojo/_base/declare"], function(Stateful, declare){
   // Subclass dojo/Stateful:
@@ -482,8 +493,3 @@ define(["dojo/Evented", "dojo/_base/declare"], function(Evented, declare){
   component.startup();
 });
 ```
-
-To get started:
----
-* [Application Controller Architecture](http://dojotoolkit.org/documentation/tutorials/1.9/recipes/app_controller/)
-* [Templeted Widgets](http://dojotoolkit.org/documentation/tutorials/1.9/templated/)
