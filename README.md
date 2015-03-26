@@ -238,8 +238,9 @@ require(["dojo/store/Memory"], function(Memory){
     store.remove(3); // delete the object
 });
 ```
+
 [`dgrid`](http://dojofoundation.org/packages/dgrid/)
--------
+--------------
 易扩展的grid控件。
 ```javascript
 this.dgrid = new(declare([Grid]))({
@@ -274,7 +275,7 @@ this.dgrid.set("store", this.deviceStore);
 ```
 
 [`gridx`](https://github.com/oria/gridx/)
--------
+--------------
 [主页](http://oria.github.io/gridx/)
 使用方法，参考[如何使用 Gridx](http://www.ibm.com/developerworks/cn/web/1302_zhuxw_gridx/)
 ```javascript
@@ -296,7 +297,7 @@ require([
 ```
 
 [`dbind`](https://github.com/kriszyp/dbind)
--------
+--------------
 dbind is a functional reactive data binding package that provides straightforward binding of data to components like form inputs, validation connectors, and more. The dbind framework is designed to help you create organized, well-structured, layered applications, facilitating a clean separation between a data model with validation logic and presentation elements. It is also intended to be compatible with Dojo and bindr, giving you the full capabilities of the bindr reactive data binding language with Dojo and Dijit widgets.
 ```javascript
 require(['dbind/bind'], function(bind){
@@ -314,7 +315,7 @@ require(['dijit/form/TextBox', 'dbind/bind'], function(TextBox){
 ```
 
 [`dojo/on`](http://dojotoolkit.org/reference-guide/1.10/dojo/on.html)
----
+--------------
 基于现代浏览器的事件模型的，DOM节点事件绑定与监听的方法
 ```javascript
 require(["dojo/on"], function(on){
@@ -329,27 +330,41 @@ require(["dojo/on"], function(on){
 });
 ```
 
-`dojo/query, dojo/dom, dojo/dom-class, dojo/dom-style, dojo/dom-construct, dojo/dom-attr, dojo/dom-geometry`
----
+--------------
 Dojo DOM的操作函数集
+--------------
 
+[`dojo/query`](http://dojotoolkit.org/reference-guide/1.10/dojo/)
+--------------
 query： DOM节点查询。
 
+[`dojo/dom`](http://dojotoolkit.org/reference-guide/1.10/dojo/)
+--------------
 dom：DOM节点的查询。
 方法包括：byId()，isDescendant()，setSelectable()。
 
+[`dojo/dom-class`](http://dojotoolkit.org/reference-guide/1.10/dojo/dom-class.html#dojo-dom-class)
+--------------
 dom-class：操作DOM节点的class。
 方法包括：contains()，add()， remove()， replace()， toggle()。
 
+[`dojo/dom-style`](http://dojotoolkit.org/reference-guide/1.10/dojo/)
+--------------
 dom-style：操作DOM节点的css属性。
 方法包括：set()，get()，getComputedStyle()。
 
+[`dojo/dom-construct`](http://dojotoolkit.org/reference-guide/1.10/dojo/)
+--------------
 dom-construct：操作DOM节点。
 方法包括：toDom()，create()，empty()，place()，replace()，destroy()。
 
+[`dojo/dom-attr`](http://dojotoolkit.org/reference-guide/1.10/dojo/)
+--------------
 dom-attr：操作DOM节点的属性。
-方法包括：set()， get()
+方法包括：set()， get(http://dojotoolkit.org/reference-guide/1.10/dojo/)
 
+[`dojo/dom-geometry`](http://dojotoolkit.org/reference-guide/1.10/dojo/)
+--------------
 dom-geometry：操作DOM节点的位置属性。
 方法包括：position()，getMarginBox()，setMarginBox()，getContentBox()，setContentSize()等。
 ```javascript
@@ -383,12 +398,12 @@ require([
 ```
 
 [`dojo/aspect`](http://dojotoolkit.org/reference-guide/1.10/dojo/aspect.html)
----
+--------------
 Dojo的面向方面编程（AOP）[面向方面编程（AOP）功能与原理](http://www.infoq.com/cn/articles/zwb-dojo-aop)
----
-用于声明dojo类，支持单继承，多模块嵌入。
 
 [`dojo/_base/declare`](http://dojotoolkit.org/reference-guide/1.9/dojo/_base/declare.html)
+--------------
+用于声明dojo类，支持单继承，多模块嵌入。
 
 ```javascript
 require([
@@ -440,7 +455,7 @@ require([
 ```
 
 [`dojo/Stateful`](http://dojotoolkit.org/reference-guide/1.10/dojo/Stateful.html)
----
+--------------
 为对象提供getter/setter方法。以及提供监听属性更改的方法。
 ```javascript
 require(["dojo/Stateful", "dojo/_base/declare"], function(Stateful, declare){
@@ -474,7 +489,7 @@ require(["dojo/Stateful", "dojo/_base/declare"], function(Stateful, declare){
 ```
 
 [`dojo/Evented`](http://dojotoolkit.org/reference-guide/1.9/dojo/Evented.html)
----
+--------------
 dojo/Evented is a module that provides a class that can be used as a base class or mixin for JavaScript classes that emit their own events. dojo/Evented is designed to provide a class that allows a developer to emit events and provide an easy way to allow those events to be connected to by downstream users. It leverages the API concepts of :ref:dojo/on <dojo/on>. It should be noted though that this is for what is commonly referred to as “sythetic” events, which are different than DOM events, which dojo/on normalises.
 ```javascript
 define(["dojo/Evented", "dojo/_base/declare"], function(Evented, declare){
