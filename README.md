@@ -377,7 +377,7 @@ require([
   "dojo/dom-geometry",
   "dojo/dom-construct"
 ],function(dom, query, domAttr, domClass, domStyle, domGeom, domConstruct){
-  var node = dom.by("node"); // 查找id为node的节点
+  var node = dom.byId("node"); // 查找id为node的节点
   query(".node li").forEach(function(li){
     var span = domConstruct.create("span",{
       "class": "red",
